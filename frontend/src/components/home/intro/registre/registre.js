@@ -3,24 +3,6 @@ import './registre.css'
 
 
 function Registre() {
-    // const [userDetails, setUserDetails] = useState({
-    //     email: '',
-    //     password: '',
-    // });
-
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setUserDetails({
-    //         ...userDetails,
-    //         [name]: value,
-    //     });
-    // };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log('User Details:', userDetails);
-    //     // Here you would usually send the details to the backend
-    // };
 
     return (
         <form className="formm">
@@ -48,6 +30,25 @@ function Registre() {
                 <select name="type" id="type">
                     <option value="nurse">Nurse</option>
                     <option value="doctor">Doctor</option>
+                </select>
+            </label>
+            <label htmlFor="service">Service:
+                <select name="service" id="service">
+                    <option value="1">Emergency Services</option>
+                    <option value="2">Inpatient Services</option>
+                    <option value="3">Outpatient Services</option>
+                    <option value="4">Surgical Services</option>
+                    <option value="5">Diagnostic Services</option>
+                    <option value="6">Maternity and Newborn Services</option>
+                    <option value="7">Pediatric Services</option>
+                    <option value="8">Intensive Care Units</option>
+                    <option value="9">Pharmacy</option>
+                    <option value="10">Rehabilitation Services</option>
+                    <option value="11">Oncology Services</option>
+                    <option value="12">Cardiology Services</option>
+                    <option value="13">Mental Health and Psychiatry Services</option>
+                    <option value="14">Geriatric Services</option>
+                    <option value="15">Palliative and Hospice Care</option>
                 </select>
             </label>
             <input

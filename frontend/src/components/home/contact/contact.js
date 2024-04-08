@@ -1,7 +1,7 @@
 import React from 'react'
-import linkdin from '/Users/SNAKE/react-app/patientTriage-app/project/src/images/linkdin.png'
-import facebook from '/Users/SNAKE/react-app/patientTriage-app/project/src/images/facebook.png'
-import instagram from '/Users/SNAKE/react-app/patientTriage-app/project/src/images/instagram.png'
+import linkdin from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/linkdin.png'
+import facebook from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/facebook.png'
+import instagram from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/instagram.png'
 import './contact.css'
 function Contact() {
     return (

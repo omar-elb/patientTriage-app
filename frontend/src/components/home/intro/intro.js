@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './intro.css'
-import pers from '/Users/SNAKE/react-app/patientTriage-app/project/src/images/pers.png'
+import pers from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/pers.png'
 import Signin from './sign/signin.js'
 
 

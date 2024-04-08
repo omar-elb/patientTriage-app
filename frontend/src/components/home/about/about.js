@@ -1,5 +1,5 @@
 import React from 'react'
-import digital from '/Users/SNAKE/react-app/patientTriage-app/project/src/images/digital.png'
+import digital from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/digital.png'
 import './about.css'
 
 function About() {

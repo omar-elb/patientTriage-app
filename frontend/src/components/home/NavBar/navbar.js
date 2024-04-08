@@ -1,6 +1,6 @@
 import React from 'react'
 import './navbar.css'
-import logo from '/Users/SNAKE/react-app/patientTriage-app/project/src/images/logo.png'
+import logo from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/logo.png'
 import { Link } from 'react-scroll'
 import { LogIn } from 'lucide-react';
 
