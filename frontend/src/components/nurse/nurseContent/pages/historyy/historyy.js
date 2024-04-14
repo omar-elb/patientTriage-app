@@ -12,6 +12,7 @@ function Historyy() {
           <input type="text" name="cin" placeholder="CIN" required />
           <button type="submit">Search</button>
         </div>
+        
       </form>
     </div>
   )
