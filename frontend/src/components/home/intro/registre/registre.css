@@ -7,7 +7,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.formm h2 {
+.reg h2 {
     text-align: center;
     margin-bottom: 15px;
     color: #333;
@@ -21,7 +21,7 @@
 .formm select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 8.5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;

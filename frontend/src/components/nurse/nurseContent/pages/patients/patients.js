@@ -17,13 +17,14 @@ function Patients() {
     address: ''
   });
 
+  // state of inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   // add patient
-  const handleSubmit = async (event) => {
+  const addPat = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post('http://127.0.0.1:5000/add_patient', formData, {
@@ -62,7 +63,7 @@ function Patients() {
 
   // search patient
 
-  const handleSubmit1 = async (event) => {
+  const searchPat = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.get('http://127.0.0.1:5000/search_patient', {
@@ -101,6 +102,7 @@ function Patients() {
           address: ''
         });
         setResponseStatus(0)
+        setCin('')
         console.error("Failure:", data);
       }
     } catch (error) {
@@ -109,19 +111,104 @@ function Patients() {
     }
   };
 
+
+// delete patient
+  const deletePat = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.delete('http://127.0.0.1:5000/delete_patient', {
+        params: { cin: cin },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Extract data from the response
+      const data = response.data;
+      setResponseMessage(data.message);  // Assuming this is a function you've defined to set a response message
+      console.log(responseMessage)
+      console.log(response.status)
+      setFormData({
+        cin: '',
+        name: '',
+        date: '',
+        sex: 'male',
+        tel: '',
+        email: '',
+        address: ''
+      });
+
+      if (response.status === 201) {
+        // Handle success
+        setResponseStatus(response.status)
+        console.log("Success:", data);
+      } else {
+        // Handle failure
+        setResponseStatus(0)
+        setCin('')
+        console.error("Failure:", data);
+      }
+    } catch (error) {
+      // Handle errors from the request itself (e.g., network errors, timeout errors)
+      console.error("Error during the request:", error.message);
+    }
+  };
+
+
+// update patient
+
+const updatePat = async (event) => {
+  event.preventDefault();
+  try {
+    const response = await axios.post('http://127.0.0.1:5000/update_patient', formData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // Extract data from the response
+    const data = response.data;
+    setResponseMessage(data.message);  // Assuming this is a function you've defined to set a response message
+    setFormData({
+      cin: '',
+      name: '',
+      date: '',
+      sex: 'male',
+      tel: '',
+      email: '',
+      address: ''
+    });
+
+    if (response.status === 201) {
+      // Handle success
+      setResponseStatus(response.status)
+      console.log("Success:", data);
+    } else {
+      // Handle failure
+      console.error("Failure:", data);
+    }
+
+  } catch (error) {
+    // Handle errors from the request itself (e.g., network errors, timeout errors)
+    console.error("Error during the request:", error.message);
+  }
+};
+
+
   return (
     <div>
       <h2 id='patients'>Patients</h2>
 
-      <form className="form1" onSubmit={handleSubmit1}>
+      <form className="form1" onSubmit={(e) => e.preventDefault()}>
         <h4>Find a patient:</h4>
         <div className="row">
-          <input type="text" name="cin" placeholder="CIN" required onChange={(e) => setCin(e.target.value)} />
-          <button type="submit">Search</button>
+          <input type="text" name="cin" placeholder="CIN" value={cin} required onChange={(e) => setCin(e.target.value)} />
+          <button type="button" onClick={searchPat}>Search</button>
+          <button type='button' onClick={deletePat}>Delete</button>
         </div>
       </form>
 
-      <form className="form1" onSubmit={handleSubmit}>
+      <form className="form1" onSubmit={(e) => e.preventDefault()}>
         <h4>Add a patient:</h4>
         <div className="row">
           <input type="text" name="cin" placeholder="CIN" value={formData.cin} required onChange={handleInputChange} />
@@ -143,7 +230,11 @@ function Patients() {
           <input type="email" name="email" placeholder="Email" value={formData.email} required onChange={handleInputChange} />
         </div>
         <input type="text" name="address" placeholder="Address" value={formData.address} required onChange={handleInputChange} />
-        <button type="submit">Add</button>
+        <div className='row'>
+          <button type="button" onClick={addPat}>Add</button>
+        <button type="button" onClick={updatePat}>Update</button>
+        </div>
+        
       </form>
       {responseMessage && responseStatus === 201 ? <p style={{ color: 'green', marginLeft: '30px' }}>{responseMessage}</p> : <p style={{ color: 'red', marginLeft: '30px' }}>{responseMessage}</p>}
     </div>

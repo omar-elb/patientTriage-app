@@ -5,8 +5,20 @@ import Model from "./intro/model/model";
 import './home.css'
 import About from "./about/about";
 import Contact from "./contact/contact";
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom'
 
 function Home() {
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user.value);
+  if (user != {}) {
+    if (user.personnel_type == 'nurse') {
+      navigate('/nurse');
+    } else {
+      navigate('/doctor');
+    }
+  }
+
   const [model, setModel] = useState(false);
 
   const toggleModel = () => {

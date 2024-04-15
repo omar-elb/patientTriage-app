@@ -49,7 +49,61 @@ def search_patient(cin):
         all_results = result.all()
         trans.commit()
         if all_results:
-            patient = all_results[0]._asdict()  # Convert the first result to a dictionary
+            patient = all_results[
+                0
+            ]._asdict()  # Convert the first result to a dictionary
             return patient
         else:
             return None
+
+
+def delete_patient(cin):
+
+    with engine.connect() as conn:
+        trans = conn.begin()
+        delete_query = text(
+            """
+            delete from patient where cin_patient = :cin
+        """
+        )
+
+        deleted = conn.execute(
+            delete_query,
+            {
+                "cin": cin,
+            },
+        )
+        trans.commit()
+        if deleted.rowcount > 0:
+            return True
+        else:
+            return False
+
+
+def update_patient(data):
+
+    with engine.connect() as conn:
+        trans = conn.begin()
+        update_query = text(
+            """
+            UPDATE patient
+            SET full_name = :name, date_of_birth = :date, sex = :sex, phone_number = :tel, email = :email, adress = :address
+            WHERE cin_patient = :cin;
+        """
+        )
+
+        conn.execute(
+            update_query,
+            {
+                "cin": data["cin"],
+                "name": data["name"],
+                "date": data["date"],
+                "sex": data["sex"],
+                "tel": data["tel"],
+                "email": data["email"],
+                "address": data["address"],
+            },
+        )
+        # Commit the transaction
+        trans.commit()
+        return True
