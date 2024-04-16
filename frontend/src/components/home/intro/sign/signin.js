@@ -44,12 +44,14 @@ function Signin() {
             if (response.status === 201) {
                 // Handle success
                 dispatch(addUser(data))
-                if (data.personnel_type == 'nurse') {
-                    navigate('/nurse');
+                if (data.personnel_type === 'nurse') {
+                    navigate('/nurse', { replace: true });
+                    // navigate('/nurse');
                 } else {
-                    navigate('/doctor');
+                    navigate('/doctor', { replace: true });
+                    // navigate('/doctor');
                 }
-                console.log("Success:", data);
+                // console.log("Success:", data);
             } else {
                 // Handle failure
                 console.error("Failure:", data);

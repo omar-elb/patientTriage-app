@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 from patients import add_patient, delete_patient, search_patient, update_patient
 from personnel import add_personnel, check_personnel
 
 app = Flask(__name__)
+app.secret_key = 'my_secret_key' 
 CORS(app)
 
 
@@ -91,10 +92,18 @@ def check_per():
     print("Data content:", data)
 
     personnel = check_personnel(data)
+    print(personnel)
+    session['cin'] = personnel['cin_personnel']
     if personnel is not None:
         return jsonify(personnel), 201
     else:
         return (jsonify({"message": "CIN or password is incorrect"}), 200)
+    
+# route to logout
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.pop('cin', None)
+    return (jsonify({"message": "logout"}), 201)
 
 
 if __name__ == "__main__":

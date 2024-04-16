@@ -8,5 +8,5 @@ export const getUserFromStorage = () => {
 };
 
 export const clearUserFromStorage = () => {
-    localStorage.setItem('user', JSON.stringify({}));
+    localStorage.setItem('user', null);
 };
