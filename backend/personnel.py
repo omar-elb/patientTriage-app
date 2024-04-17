@@ -57,3 +57,58 @@ def check_personnel(data):
             return personnel
         else:
             return None
+        
+
+def search_profile(cin):
+
+    with engine.connect() as conn:
+        trans = conn.begin()
+        query = text(
+            """
+            select * from personnel where cin_personnel = :cin
+        """
+        )
+
+        result = conn.execute(
+            query,
+            {
+                "cin": cin,
+            },
+        )
+        all_results = result.all()
+        trans.commit()
+        if all_results:
+            profile = all_results[
+                0
+            ]._asdict()  # Convert the first result to a dictionary
+            return profile
+        else:
+            return None
+
+
+def update_personnel(data):
+
+    with engine.connect() as conn:
+        trans = conn.begin()
+        update_query = text(
+            """
+            UPDATE personnel
+            SET full_name = :name, date_of_birth = :date, phone_number = :tel, email = :email, password = :password
+            WHERE cin_personnel = :cin;
+        """
+        )
+
+        conn.execute(
+            update_query,
+            {
+                "cin": data["cin"],
+                "name": data["name"],
+                "date": data["date"],
+                "tel": data["tel"],
+                "email": data["email"],
+                "password": data["password"],
+            },
+        )
+        # Commit the transaction
+        trans.commit()
+        return True

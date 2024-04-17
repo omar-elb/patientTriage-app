@@ -18,7 +18,6 @@ function Nurse() {
 
   function displayElm(x) {
     setElm(x)
-    console.log(x)
   }
   return (
     <div className='nu'>

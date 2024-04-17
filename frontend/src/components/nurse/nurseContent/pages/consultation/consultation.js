@@ -1,26 +1,101 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import './consultation.css'
+import { getUserFromStorage } from '../../../../../utils/storage';
+
 
 function Consultation() {
+  const user = getUserFromStorage()
+  const [responseStatus, setResponseStatus] = useState(0);
+  const [responseMessage, setResponseMessage] = useState('');
+  const [formData, setFormData] = useState({
+    cin: '',
+    cinPer: user.cin_personnel,
+    age: '',
+    sex: '2',
+    arrivalMode: '1',
+    injury: '1',
+    mentalStatus: '1',
+    pain: '1',
+    nrsPain: '',
+    systolicBP: '',
+    diastolicBP: '',
+    heartRate: '',
+    respirationRate: '',
+    bodyTemperature: '',
+    oxygenSaturation: ''
+  });
+
+  // state of inputs
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(formData)
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/submit_consultation', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // Extract data from the response
+      const data = response.data;
+      setResponseMessage(data.predict);  // Assuming this is a function you've defined to set a response message
+      setFormData({
+        cin: '',
+        cinPer: user.cin_personnel,
+        age: '',
+        sex: '2',
+        arrivalMode: '1',
+        injury: '1',
+        mentalStatus: '1',
+        pain: '1',
+        nrsPain: '',
+        systolicBP: '',
+        diastolicBP: '',
+        heartRate: '',
+        respirationRate: '',
+        bodyTemperature: '',
+        oxygenSaturation: ''
+      });
+      if (response.status === 201) {
+        // Handle success
+        setResponseStatus(response.status)
+        console.log("Success:", data);
+      } else {
+        // Handle failure
+        console.error("Failure:", data);
+      }
+    } catch (error) {
+      console.error('Error submitting consultation:', error);
+    }
+  };
+
+
   return (
     <div>
       <h2 id='Consultation'>Consultation</h2>
 
-      <form className="formConst">
+      <form className="formConst" onSubmit={handleSubmit}>
         <h4>Add a patient:</h4>
         <div className="rowConst">
-          <input type="text" name="cin" placeholder="CIN" required />
-          <input type="number" name="age" placeholder="Age" required />
+          <input type="text" name="cin" placeholder="CIN" value={formData.cin} required onChange={handleInputChange} />
+          <input type="number" name="age" placeholder="Age" value={formData.age} required onChange={handleInputChange} />
         </div>
         <div className="rowConst">
           <label htmlFor="sex">Sex:
-            <select name="sex" id="sex">
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+            <select name="sex" id="sex" value={formData.sex} onChange={handleInputChange}>
+              <option value="2">Male</option>
+              <option value="1">Female</option>
             </select>
           </label>
-          <label htmlFor="arrival">Arrival mode:
-            <select name="arrival" id="arrival">
+          <label htmlFor="arrivalMode">Arrival mode:
+            <select name="arrivalMode" id="arrivalMode" value={formData.arrivalMode} onChange={handleInputChange}>
               <option value="1">Walking</option>
               <option value="2">119 use</option>
               <option value="3">Private car</option>
@@ -32,42 +107,50 @@ function Consultation() {
           </label>
         </div>
         <div className="rowConst">
-          <label htmlFor="Injury">Injury:
-            <select name="Injury" id="Injury">
+          <label htmlFor="injury">Injury:
+            <select name="injury" id="injury" value={formData.injury} onChange={handleInputChange}>
               <option value="1">Non-injury</option>
               <option value="2">Injury</option>
             </select>
           </label>
-          <label htmlFor="Mental">Mental:
-            <select name="Mental" id="Mental">
+          <label htmlFor="mentalStatus">Mental:
+            <select name="mentalStatus" id="mentalStatus" value={formData.mentalStatus} onChange={handleInputChange}>
               <option value="1">Alert</option>
               <option value="2">Verval response</option>
               <option value="3">Pain response</option>
               <option value="4">Unconciousness</option>
             </select>
           </label>
-          <label htmlFor="Pain">Pain:
-            <select name="Pain" id="Pain">
+          <label htmlFor="pain">Pain:
+            <select name="pain" id="pain" value={formData.pain} onChange={handleInputChange}>
               <option value="1">Pain</option>
               <option value="2">Non-pain</option>
             </select>
           </label>
         </div>
         <div className="rowConst">
-          <input type="number" name="NRS_pain" placeholder="Numeric rating scales of pain" required />
-          <input type="number" name="SBP" placeholder="Systolid blood pressure" required />
-          <input type="number" name="DBP" placeholder="Diastolic blood pressure" required />
+          <input type="number" name="nrsPain" value={formData.nrsPain} placeholder="Numeric rating scales of pain" required onChange={handleInputChange} />
+          <input type="number" name="systolicBP" value={formData.systolicBP} placeholder="Systolid blood pressure" required onChange={handleInputChange} />
+          <input type="number" name="diastolicBP" value={formData.diastolicBP} placeholder="Diastolic blood pressure" required onChange={handleInputChange} />
         </div>
         <div className="rowConst">
-          <input type="number" name="HR" placeholder="Heart rate" required />
-          <input type="number" name="RR" placeholder="Respiration rate" required />
+          <input type="number" name="heartRate" value={formData.heartRate} placeholder="Heart rate" required onChange={handleInputChange} />
+          <input type="number" name="respirationRate" value={formData.respirationRate} placeholder="Respiration rate" required onChange={handleInputChange} />
         </div>
         <div className="row">
-          <input type="number" name="BT" placeholder="Body temperature" required />
-          <input type="number" name="Saturation" placeholder="Saturation to use pulse oxmeter" required />
+          <input type="number" name="bodyTemperature" value={formData.bodyTemperature} placeholder="Body temperature" required onChange={handleInputChange} />
+          <input type="number" name="oxygenSaturation" value={formData.oxygenSaturation} placeholder="Saturation to use pulse oxmeter" required onChange={handleInputChange} />
         </div>
         <button type="submit">Add</button>
       </form>
+      {responseMessage && (responseStatus === 201 && responseMessage === '1')
+        ? <p style={{ color: 'red', marginLeft: '30px' }}>Emergency</p>
+        : (responseMessage === '2' || responseMessage === '3')
+          ? <p style={{ color: 'orange', marginLeft: '30px' }}>Urgent</p>
+          : responseMessage === '4'
+            ? <p style={{ color: 'green', marginLeft: '30px' }}>Non-urgent</p>
+            : <p style={{ color: 'red', marginLeft: '30px' }}>{responseMessage}</p>}
+
     </div>
   )
 }

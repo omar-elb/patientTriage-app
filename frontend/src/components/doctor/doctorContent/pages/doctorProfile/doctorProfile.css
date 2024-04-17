@@ -17,7 +17,7 @@
 .doctorProfile input[type="date"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -39,4 +39,31 @@
 .doctorProfile button:hover {
     color: #ffffff;
     background-color: rgb(255, 127, 138);
+}
+
+/* Styles for the container that holds the label and checkbox */
+.password-checkbox-container {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    /* Vertically centers the label with the checkbox */
+}
+
+/* Styles for the label */
+.password-checkbox-label {
+    margin-right: 10px;
+    /* Spacing between the label and the checkbox */
+    font-size: 16px;
+    color: #333;
+    /* Dark gray text color */
+    cursor: pointer;
+    /* Cursor pointer to indicate it's clickable */
+}
+
+/* Styles for the checkbox */
+.password-checkbox {
+    cursor: pointer;
+    transform: scale(1.2);
+    /* Makes the checkbox slightly larger */
+    margin: 0;
 }
