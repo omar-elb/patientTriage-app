@@ -1,4 +1,4 @@
-from consultation import insert_into_database, process_and_predict
+from consultation import insert_into_database, process_and_predict, get_consultations
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from patients import add_patient, delete_patient, search_patient, update_patient
@@ -141,9 +141,8 @@ def profile():
     else:
         return (jsonify({"message": "There is no patient you are looking for"}), 200)
 
-    # route to update personnel
 
-
+# route to update personnel
 @app.route("/update_personnel", methods=["POST"])
 def update_per():
     data = request.json
@@ -154,6 +153,18 @@ def update_per():
         return jsonify({"message": "Personnel updeted successfully"}), 201
     else:
         return jsonify({"message": "Failed to updete personnel"}), 200
+    
+
+# route to get consultations
+@app.route("/get_consultations", methods=["GET"])
+def get_consult():
+    consultations = get_consultations()
+    if consultations is not None:
+        print(consultations)
+        print(type(consultations))
+        return jsonify(consultations), 201
+    else:
+        return (jsonify({"message": "There is no consultation"}), 200)
 
 
 if __name__ == "__main__":

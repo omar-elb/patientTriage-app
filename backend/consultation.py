@@ -89,3 +89,27 @@ def insert_into_database(data, predicted_diagnostic):
         # Commit the transaction
         trans.commit()
         return True
+
+
+def get_consultations():
+    with engine.connect() as conn:
+        trans = conn.begin()
+        query = text(
+            """
+            select * from consultation 
+        """
+        )
+
+        result = conn.execute(query)
+
+
+        all_results = result.all()
+        trans.commit()
+        if all_results:
+            result_dicts = []
+            for x in all_results:
+                result_dicts.append(x._asdict())  # Convert the result to a dictionarys
+            return result_dicts
+        else:
+            return None
+
