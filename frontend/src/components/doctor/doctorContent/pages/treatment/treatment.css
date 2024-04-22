@@ -1,5 +1,5 @@
 .serchPat {
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     color: #333;
@@ -11,7 +11,7 @@
 .serchPat input{
     width: 50%;
     padding: 8px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -21,7 +21,7 @@
 .serchPat textarea{
     width: 70%;
     padding: 8px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;

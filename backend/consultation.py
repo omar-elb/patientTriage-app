@@ -69,7 +69,7 @@ def insert_into_database(data, predicted_diagnostic):
             sql_query,
             {
                 "cinPa": data["cin"],
-                "cinPer": data['cinPer'],
+                "cinPer": data["cinPer"],
                 "age": data["age"],
                 "sex": data["sex"],
                 "arrivalMode": data["arrivalMode"],
@@ -96,12 +96,30 @@ def get_consultations():
         trans = conn.begin()
         query = text(
             """
-            select * from consultation 
-        """
+            SELECT consultation.consultation_id, 
+            consultation.cin_patient, 
+            consultation.age, 
+            consultation.sex, 
+            consultation.arrival_mode, 
+            consultation.injury, 
+            consultation.mental_status, 
+            consultation.pain, 
+            consultation.nrs_pain, 
+            consultation.systolic_blood_pressure, 
+            consultation.diastolic_blood_pressure, 
+            consultation.heart_rate, 
+            consultation.respiration_rate, 
+            consultation.body_temperature, 
+            consultation.oxygen_saturation, 
+            consultation.date_consultation, 
+            consultation.diagnostic, 
+            treatment.treatment_description 
+            FROM consultation 
+            LEFT JOIN treatment ON consultation.consultation_id = treatment.consultation_id
+            """
         )
 
         result = conn.execute(query)
-
 
         all_results = result.all()
         trans.commit()
@@ -113,3 +131,49 @@ def get_consultations():
         else:
             return None
 
+
+def get_consultations_patient(cin):
+    with engine.connect() as conn:
+        trans = conn.begin()
+        query = text(
+            """
+            SELECT consultation.consultation_id, 
+            consultation.cin_patient, 
+            consultation.age, 
+            consultation.sex, 
+            consultation.arrival_mode, 
+            consultation.injury, 
+            consultation.mental_status, 
+            consultation.pain, 
+            consultation.nrs_pain, 
+            consultation.systolic_blood_pressure, 
+            consultation.diastolic_blood_pressure, 
+            consultation.heart_rate, 
+            consultation.respiration_rate, 
+            consultation.body_temperature, 
+            consultation.oxygen_saturation, 
+            consultation.date_consultation, 
+            consultation.diagnostic, 
+            treatment.treatment_description 
+            FROM consultation 
+            LEFT JOIN treatment ON consultation.consultation_id = treatment.consultation_id
+            where cin_patient = :cin
+        """
+        )
+
+        result = conn.execute(
+            query,
+            {
+                "cin": cin,
+            },
+        )
+
+        all_results = result.all()
+        trans.commit()
+        if all_results:
+            result_dicts = []
+            for x in all_results:
+                result_dicts.append(x._asdict())  # Convert the result to a dictionarys
+            return result_dicts
+        else:
+            return None

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Treatment from './pages/treatment/treatment'
 import Radiography from './pages/radiography/radiography'
 import DoctorProfile from './pages/doctorProfile/doctorProfile';

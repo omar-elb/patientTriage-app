@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Registre from "../registre/registre";
 import "./model.css";
 

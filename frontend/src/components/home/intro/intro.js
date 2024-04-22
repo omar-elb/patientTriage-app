@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './intro.css'
 import pers from '/Users/SNAKE/react-app/patientTriage-app/frontend/src/images/pers.png'
 import Signin from './sign/signin.js'

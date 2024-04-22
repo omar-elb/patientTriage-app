@@ -1,8 +1,14 @@
-from consultation import insert_into_database, process_and_predict, get_consultations
+from consultation import (
+    get_consultations,
+    get_consultations_patient,
+    insert_into_database,
+    process_and_predict,
+)
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from patients import add_patient, delete_patient, search_patient, update_patient
 from personnel import add_personnel, check_personnel, search_profile, update_personnel
+from treatment import add_treatment
 
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
@@ -153,7 +159,7 @@ def update_per():
         return jsonify({"message": "Personnel updeted successfully"}), 201
     else:
         return jsonify({"message": "Failed to updete personnel"}), 200
-    
+
 
 # route to get consultations
 @app.route("/get_consultations", methods=["GET"])
@@ -165,6 +171,35 @@ def get_consult():
         return jsonify(consultations), 201
     else:
         return (jsonify({"message": "There is no consultation"}), 200)
+
+
+# route to search patient
+@app.route("/search_consultations_patient", methods=["GET"])
+def search_consult_pat():
+    cin = request.args.get(
+        "cin"
+    )  # This retrieves the 'cin' parameter from the URL query string
+    if cin is None:
+        return jsonify({"message": "CIN parameter is required"}), 400
+
+    consult_pat = get_consultations_patient(cin)
+    if consult_pat is not None:
+        return jsonify(consult_pat), 201
+    else:
+        return (jsonify({"message": "There is no patient you are looking for"}), 200)
+
+
+# route to add treatment
+@app.route("/add_treatment", methods=["POST"])
+def add_tre():
+    data = request.json
+    print("Data type:", type(data))
+    print("Data content:", data)
+    tret = add_treatment(data)
+    if tret:
+        return jsonify({"message": "Treatment added successfully"}), 201
+    else:
+        return jsonify({"message": "Failed to add Treatment"}), 200
 
 
 if __name__ == "__main__":

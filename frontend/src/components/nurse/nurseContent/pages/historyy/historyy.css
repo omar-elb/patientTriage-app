@@ -5,7 +5,7 @@
     color: #333;
     gap: 5px;
     width: 60vw;
-    margin: 10px;
+    margin: 7px;
 }
 
 .row1 {
@@ -18,10 +18,10 @@
     /* Makes each element take up equal space */
 }
 
-.serchConsu input{
+.serchConsu input {
     width: 100%;
     padding: 8px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -41,13 +41,30 @@
     transition: background-color 0.3s ease;
 }
 
-#history{
+#history {
     color: #333;
     margin-left: 20px;
     margin-top: 10px;
 }
 
 .serchConsu button:hover {
+    color: #ffffff;
+    background-color: rgb(255, 127, 138);
+}
+
+.btnh {
+    width: 80%;
+    height: 4.3vh;
+    padding: 7px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnh:hover {
     color: #ffffff;
     background-color: rgb(255, 127, 138);
 }
