@@ -99,6 +99,7 @@ function Historyy() {
                 <TableCell style={{ backgroundColor: 'rgb(0, 217, 255)', color: 'white' }}>cin_patient</TableCell>
                 <TableCell style={{ backgroundColor: 'rgb(0, 217, 255)', color: 'white' }}>date_consultation</TableCell>
                 <TableCell style={{ backgroundColor: 'rgb(0, 217, 255)', color: 'white' }}>diagnostic</TableCell>
+                <TableCell style={{ backgroundColor: 'rgb(0, 217, 255)', color: 'white' }}>disease</TableCell>
                 <TableCell style={{ backgroundColor: 'rgb(0, 217, 255)', color: 'white' }}>More_infos</TableCell>
               </TableRow>
             </TableHead>
@@ -117,6 +118,7 @@ function Historyy() {
                           ? <p style={{ color: 'orange' }}>Urgent</p>
                           : <p style={{ color: 'green' }}>Non-urgent</p>
                       }</TableCell>
+                      <TableCell>{consult.disease}</TableCell>
                       <TableCell><button className='btnh' onClick={() => {
                         setContent(consult)
                         setOpenPopup(true)

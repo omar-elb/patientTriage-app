@@ -9,6 +9,7 @@ from flask_cors import CORS
 from patients import add_patient, delete_patient, search_patient, update_patient
 from personnel import add_personnel, check_personnel, search_profile, update_personnel
 from treatment import add_treatment
+from ai import predict_disease
 
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
@@ -103,7 +104,7 @@ def check_per():
     if personnel is not None:
         return jsonify(personnel), 201
     else:
-        return (jsonify({"message": "CIN or password is incorrect"}), 200)
+        return (jsonify({"message": "CIN or password is incorrect"}), 400)
 
 
 # route to logout
@@ -121,13 +122,15 @@ def submit_consultation():
 
     # Process data and make predictions
     predicted_diagnostic = process_and_predict(data)
+    disease = predict_disease(data["symptom_1"], data["symptom_2"], data["symptom_3"])
 
     # Insert consultation data into the database
-    if insert_into_database(data, predicted_diagnostic):
+    if insert_into_database(data, predicted_diagnostic ,disease):
         print(predicted_diagnostic)
-        return jsonify({"predict": str(predicted_diagnostic)}), 201
+        print(disease)
+        return jsonify({"predict": str(predicted_diagnostic), "disease": disease}), 201
     else:
-        return jsonify({"error": "Failed to submit consultation"}), 200
+        return jsonify({"error": "Failed to submit consultation"}), 400
 
 
 # route of profile

@@ -25,6 +25,9 @@ function Popup(props) {
                 <p>Respiration rate: {props.consult.respiration_rate}</p>
                 <p>Body temperature: {props.consult.body_temperature}</p>
                 <p>Saturation to use pulse oxmeter: {props.consult.oxygen_saturation}</p>
+                <p>Symptom 1: {props.consult.symptom_1}</p>
+                <p>Symptom 2: {props.consult.symptom_2}</p>
+                <p>Symptom 3: {props.consult.symptom_3}</p>
                 <p>Treatment: {props.consult.treatment_description}</p>
             </DialogContent>
         </Dialog>

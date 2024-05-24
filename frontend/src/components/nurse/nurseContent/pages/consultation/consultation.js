@@ -8,6 +8,7 @@ function Consultation() {
   const user = getUserFromStorage()
   const [responseStatus, setResponseStatus] = useState(0);
   const [responseMessage, setResponseMessage] = useState('');
+  const [responseDisease, setResponseDisease] = useState('');
   const [formData, setFormData] = useState({
     cin: '',
     cinPer: user.cin_personnel,
@@ -23,7 +24,10 @@ function Consultation() {
     heartRate: '',
     respirationRate: '',
     bodyTemperature: '',
-    oxygenSaturation: ''
+    oxygenSaturation: '',
+    symptom_1: '',
+    symptom_2: '',
+    symptom_3: ''
   });
 
   // state of inputs
@@ -45,6 +49,7 @@ function Consultation() {
       });
       // Extract data from the response
       const data = response.data;
+      setResponseDisease(data.disease);
       setResponseMessage(data.predict);  // Assuming this is a function you've defined to set a response message
       setFormData({
         cin: '',
@@ -61,7 +66,10 @@ function Consultation() {
         heartRate: '',
         respirationRate: '',
         bodyTemperature: '',
-        oxygenSaturation: ''
+        oxygenSaturation: '',
+        symptom_1: '',
+        symptom_2: '',
+        symptom_3: ''
       });
       if (response.status === 201) {
         // Handle success
@@ -105,8 +113,6 @@ function Consultation() {
               <option value="7">Others</option>
             </select>
           </label>
-        </div>
-        <div className="rowConst">
           <label htmlFor="injury">Injury:
             <select name="injury" id="injury" value={formData.injury} onChange={handleInputChange}>
               <option value="1">Non-injury</option>
@@ -141,14 +147,19 @@ function Consultation() {
           <input type="number" name="bodyTemperature" value={formData.bodyTemperature} placeholder="Body temperature" required onChange={handleInputChange} />
           <input type="number" name="oxygenSaturation" value={formData.oxygenSaturation} placeholder="Saturation to use pulse oxmeter" required onChange={handleInputChange} />
         </div>
+        <div className="rowConst">
+          <input type="text" name="symptom_1" value={formData.symptom_1} placeholder="Symptom 1" required onChange={handleInputChange} />
+          <input type="text" name="symptom_2" value={formData.symptom_2} placeholder="Symptom 2" required onChange={handleInputChange} />
+          <input type="text" name="symptom_3" value={formData.symptom_3} placeholder="Symptom 3" required onChange={handleInputChange} />
+        </div>
         <button type="submit">Add</button>
       </form>
       {responseMessage && (responseStatus === 201 && responseMessage === '1')
-        ? <p style={{ color: 'red', marginLeft: '30px' }}>Emergency</p>
+        ? <p style={{ color: 'red', marginLeft: '30px' }}>Health condition: Emergency,      Possible disease: {responseDisease}</p>
         : (responseMessage === '2' || responseMessage === '3')
-          ? <p style={{ color: 'orange', marginLeft: '30px' }}>Urgent</p>
+          ? <p style={{ color: 'orange', marginLeft: '30px', whiteSpace: 'pre' }}>Health condition: Urgent,      Possible disease: {responseDisease}</p>
           : responseMessage === '4'
-            ? <p style={{ color: 'green', marginLeft: '30px' }}>Non-urgent</p>
+            ? <p style={{ color: 'green', marginLeft: '30px' }}>Health condition: Non-urgent,      Possible disease: {responseDisease}</p>
             : <p style={{ color: 'red', marginLeft: '30px' }}>{responseMessage}</p>}
 
     </div>

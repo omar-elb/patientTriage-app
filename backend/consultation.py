@@ -53,7 +53,7 @@ def process_and_predict(data):
 
 
 # Function to insert consultation data into the database
-def insert_into_database(data, predicted_diagnostic):
+def insert_into_database(data, predicted_diagnostic, disease):
 
     with engine.connect() as conn:
         trans = conn.begin()
@@ -61,8 +61,8 @@ def insert_into_database(data, predicted_diagnostic):
         sql_query = text(
             "INSERT INTO consultation (cin_patient, cin_personnel, age, sex, arrival_mode, injury, "
             "mental_status, pain, nrs_pain, systolic_blood_pressure, diastolic_blood_pressure, "
-            "heart_rate, respiration_rate, body_temperature, oxygen_saturation, date_consultation, diagnostic) "
-            "VALUES (:cinPa, :cinPer, :age, :sex, :arrivalMode, :injury, :mentalStatus, :pain, :nrsPain, :systolicBP, :diastolicBP, :heartRate, :respirationRate, :bodyTemperature, :oxygenSaturation, CURDATE(), :predicted)"
+            "heart_rate, respiration_rate, body_temperature, oxygen_saturation, date_consultation, diagnostic, symptom_1, symptom_2, symptom_3, disease) "
+            "VALUES (:cinPa, :cinPer, :age, :sex, :arrivalMode, :injury, :mentalStatus, :pain, :nrsPain, :systolicBP, :diastolicBP, :heartRate, :respirationRate, :bodyTemperature, :oxygenSaturation, CURDATE(), :predicted, :symptom_1, :symptom_2, :symptom_3, :disease)"
         )
 
         conn.execute(
@@ -84,6 +84,10 @@ def insert_into_database(data, predicted_diagnostic):
                 "bodyTemperature": data["bodyTemperature"],
                 "oxygenSaturation": data["oxygenSaturation"],
                 "predicted": predicted_diagnostic,
+                "symptom_1": data["symptom_1"],
+                "symptom_2": data["symptom_2"],
+                "symptom_3": data["symptom_3"],
+                "disease": disease
             },
         )
         # Commit the transaction
@@ -113,6 +117,10 @@ def get_consultations():
             consultation.oxygen_saturation, 
             consultation.date_consultation, 
             consultation.diagnostic, 
+            consultation.symptom_1, 
+            consultation.symptom_2, 
+            consultation.symptom_3, 
+            consultation.disease, 
             treatment.treatment_description 
             FROM consultation 
             LEFT JOIN treatment ON consultation.consultation_id = treatment.consultation_id
@@ -153,7 +161,11 @@ def get_consultations_patient(cin):
             consultation.body_temperature, 
             consultation.oxygen_saturation, 
             consultation.date_consultation, 
-            consultation.diagnostic, 
+            consultation.diagnostic,
+            consultation.symptom_1, 
+            consultation.symptom_2, 
+            consultation.symptom_3, 
+            consultation.disease,  
             treatment.treatment_description 
             FROM consultation 
             LEFT JOIN treatment ON consultation.consultation_id = treatment.consultation_id
